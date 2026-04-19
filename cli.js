@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-
 const fs = require("fs");
 const { Command } = require("commander");
+const { default: chalk } = require("chalk");
 
 const program = new Command();
 
@@ -19,16 +19,16 @@ program
     .argument("<file>", "file to create")
     .action((fileName) => {
         if (fs.existsSync(fileName)) {
-            console.log(`File ${fileName} already exists`);
+            console.log(chalk.yellow(`File ${fileName} already exists`));
             return;
         }
 
         fs.writeFile(fileName, "", (err) => {
             if (err) {
-                console.error("Error:", err.message);
+                console.error(chalk.red("Error:", err.message));
                 return;
             }
-            console.log(`File ${fileName} created`);
+            console.log("\n" + chalk.green(`✔ File ${fileName} created`) + "\n");
         });
     });
 
@@ -41,16 +41,16 @@ program
     .argument("<file>", "file to delete")
     .action((fileName) => {
         if (!fs.existsSync(fileName)) {
-            console.log(`File ${fileName} does not exist`);
+            console.log(chalk.yellow(`File ${fileName} does not exist`));
             return;
         }
 
         fs.unlink(fileName, (err) => {
             if (err) {
-                console.error("Error:", err.message);
+                console.error(chalk.red("Error:", err.message));
                 return;
             }
-            console.log(`File ${fileName} deleted`);
+            console.log("\n" + chalk.green(`✔ File ${fileName} deleted`) + "\n");
         });
     });
 
@@ -64,7 +64,7 @@ program
     .action((fileName) => {
         fs.readFile(fileName, "utf-8", (err, data) => {
             if (err) {
-                console.error("Error:", err.message);
+                console.error(chalk.red("Error:", err.message));
                 return;
             }
 
@@ -73,11 +73,8 @@ program
                     ? 0
                     : data.trim().split(/\s+/).length;
 
-            console.log(
-                words === 1
-                    ? `There is ${words} word in ${fileName}`
-                    : `There are ${words} words in ${fileName}`
-            );
+            console.log(`File: ${fileName}`);
+            console.log(`Words: ${words}`);
         });
     });
 
@@ -91,7 +88,7 @@ program
     .action((fileName) => {
         fs.readFile(fileName, "utf-8", (err, data) => {
             if (err) {
-                console.error("Error:", err.message);
+                console.error(chalk.red("Error:", err.message));
                 return;
             }
 
@@ -100,11 +97,8 @@ program
                     ? 0
                     : data.trim().split("\n").length;
 
-            console.log(
-                lines === 1
-                    ? `There is ${lines} line in ${fileName}`
-                    : `There are ${lines} lines in ${fileName}`
-            );
+            console.log(`File: ${fileName}`);
+            console.log(`Lines: ${lines}`);
         });
     });
 
@@ -118,7 +112,7 @@ program
     .action((fileName) => {
         fs.readFile(fileName, "utf-8", (err, data) => {
             if (err) {
-                console.error("Error:", err.message);
+                console.error(chalk.red("Error:", err.message));
                 return;
             }
             console.log(data);
@@ -137,10 +131,10 @@ program
 
         fs.appendFile(fileName, finalText + "\n", (err) => {
             if (err) {
-                console.error("Error:", err.message);
+                console.error(chalk.red("Error:", err.message));
                 return;
             }
-            console.log(`Added to ${fileName}: "${finalText}"`);
+            console.log(chalk.green(`Added to ${fileName}: "${finalText}"`));
         });
     });
 
