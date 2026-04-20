@@ -65,6 +65,10 @@ counter -V
 
 ---
 
+## Demo img
+![CLI Demo](assets/img1.png)
+![CLI Demo](assets/img2.png)
+
 ## Contributing
 
 Contributions are welcome!
